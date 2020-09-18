@@ -3,37 +3,108 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>Document</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
         integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="./style.css">
 </head>
 
 <body>
     <header>
-        <nav>
-
+        <nav class="navbar bg-dark">
+            <h1 class="text-light mx-auto">Weather Dashboard</h1>
         </nav>
     </header>
-    <main>
-        <section>
-            <div>
-
+    <main class="row">
+        <section class="col-4 bg-light">
+            <div class="row ml-2 mt-1">
+                <div class="col-12 bg-light">
+                    <h4>Search for a City:</h4>
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="input-group">
+                                <input type="text" class="form-control">
+                                <div class="input-group-append">
+                                    <button class="btn btn-primary" type="button">
+                                        <i class="fa fa-search"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div>
-
+            <div class="row mt-4 ml-2">
+                <div class="col-12 bg-light">
+                    <div class="card">
+                        <ul class="list-group list-group-flush">
+                          <li class="list-group-item">Austin</li>
+                          <li class="list-group-item">Chicago</li>
+                          <li class="list-group-item">New york</li>
+                        </ul>
+                      </div>                    
+                </div>
             </div>
         </section>
-        <section>
-            <div>
-
+        <section class="col-8">
+            <div class="card mt-4 mr-2">
+                <div class="card-body">
+                    <h2 class="card-title">SEATTLE</h2>
+                    <p>Temp</p>
+                    <p>Humidity</p>
+                    <p>Wind</p>
+                    <p>UV Index</p>
+                </div>
             </div>
-            <div>
-
-            </div>
+            
+                <div class="row mr-2 mt-4">
+                    <div class="col-12">
+                        <h3>5-Day Forecast:</h3>
+                    </div>
+                </div>
+                <div class="row mr-2">
+                    <div class="card col ml-3 bg-primary text-light">
+                        <div class="card-body">
+                            <h5 class="card-title">mm/dd/yyyy</h5>
+                            <p class="card-text">Temp</p>
+                            <p class="card-text">Humidity</p>
+                        </div>
+                    </div>
+                    <div class="card col ml-3 bg-primary text-light">
+                        <div class="card-body">
+                            <h5 class="card-title">mm/dd/yyyy</h5>
+                            <p class="card-text">Temp</p>
+                            <p class="card-text">Humidity</p>
+                        </div>
+                    </div>
+                    <div class="card col ml-3 bg-primary text-light">
+                        <div class="card-body">
+                            <h5 class="card-title">mm/dd/yyyy</h5>
+                            <p class="card-text">Temp</p>
+                            <p class="card-text">Humidity</p>
+                        </div>
+                    </div>
+                    <div class="card col ml-3 bg-primary text-light">
+                        <div class="card-body">
+                            <h5 class="card-title">mm/dd/yyyy</h5>
+                            <p class="card-text">Temp</p>
+                            <p class="card-text">Humidity</p>
+                        </div>
+                    </div>
+                    <div class="card col ml-3 bg-primary text-light">
+                        <div class="card-body">
+                            <h5 class="card-title">mm/dd/yyyy</h5>
+                            <p class="card-text">Temp</p>
+                            <p class="card-text">Humidity</p>
+                        </div>
+                    </div>
+                </div>
+            
         </section>
     </main>
+    </div>
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
         integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
         crossorigin="anonymous"></script>

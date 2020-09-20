@@ -25,9 +25,9 @@
                     <div class="row">
                         <div class="col-12">
                             <div class="input-group">
-                                <input type="text" class="form-control">
+                                <input type="text" class="form-control" id="search-input">
                                 <div class="input-group-append">
-                                    <button class="btn btn-primary" type="button">
+                                    <button class="btn btn-primary" type="button" id="search-button">
                                         <i class="fa fa-search"></i>
                                     </button>
                                 </div>
@@ -39,10 +39,8 @@
             <div class="row mt-4 ml-2">
                 <div class="col-12 bg-light">
                     <div class="card">
-                        <ul class="list-group list-group-flush">
-                            <li class="list-group-item">Austin</li>
-                            <li class="list-group-item">Chicago</li>
-                            <li class="list-group-item">New york</li>
+                        <ul class="list-group list-group-flush" id="search-list">
+                            <!-- Dynamically added when cities are searched -->
                         </ul>
                     </div>
                 </div>
@@ -103,7 +101,7 @@
             </div>
         </section>
     </main>
-    </div>
+    
     
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
         integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"

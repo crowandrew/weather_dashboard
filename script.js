@@ -92,7 +92,7 @@ function checkUVIndex(currentUV) {
 
 // Converts city name into latitude and longitude and inputs that into currentWeather
 function findLatLon(city) {
-    $.get(`http://api.openweathermap.org/data/2.5/weather?q=${city}&appid=05b151abf8878f4a65f1f748137f62da`, function (response) {
+    $.get(`https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=05b151abf8878f4a65f1f748137f62da`, function (response) {
         currentWeather(response.name, response.coord.lat, response.coord.lon);
         addNewSearchedCity(response.name, response.coord.lat, response.coord.lon);
         renderSearchedCities();

@@ -49,11 +49,11 @@
         <section class="col-8">
             <div class="card mt-4 mr-2">
                 <div class="card-body">
-                    <h2 class="card-title">SEATTLE</h2>
-                    <p>Temp</p>
-                    <p>Humidity</p>
-                    <p>Wind</p>
-                    <p>UV Index</p>
+                    <h2 class="card-title" id="current-city"></h2>
+                    <p id="current-temp"></p>
+                    <p id="current-humidity"></p>
+                    <p id="current-wind"></p>
+                    <p id="current-UV"></p>
                 </div>
             </div>
             <div class="row mr-2 mt-4">
@@ -61,43 +61,8 @@
                     <h3>5-Day Forecast:</h3>
                 </div>
             </div>
-            <div class="row mr-2">
-                <div class="card col ml-3 bg-primary text-light">
-                    <div class="card-body">
-                        <h5 class="card-title">mm/dd/yyyy</h5>
-                        <p class="card-text">Temp</p>
-                        <p class="card-text">Humidity</p>
-                    </div>
-                </div>
-                <div class="card col ml-3 bg-primary text-light">
-                    <div class="card-body">
-                        <h5 class="card-title">mm/dd/yyyy</h5>
-                        <p class="card-text">Temp</p>
-                        <p class="card-text">Humidity</p>
-                    </div>
-                </div>
-                <div class="card col ml-3 bg-primary text-light">
-                    <div class="card-body">
-                        <h5 class="card-title">mm/dd/yyyy</h5>
-                        <p class="card-text">Temp</p>
-                        <p class="card-text">Humidity</p>
-                    </div>
-                </div>
-                <div class="card col ml-3 bg-primary text-light">
-                    <div class="card-body">
-                        <h5 class="card-title">mm/dd/yyyy</h5>
-                        <i></i>
-                        <p class="card-text">Temp</p>
-                        <p class="card-text">Humidity</p>
-                    </div>
-                </div>
-                <div class="card col ml-3 bg-primary text-light">
-                    <div class="card-body">
-                        <h5 class="card-title">mm/dd/yyyy</h5>
-                        <p class="card-text">Temp</p>
-                        <p class="card-text">Humidity</p>
-                    </div>
-                </div>
+            <div class="row mr-2" id="daily-row">
+              
             </div>
         </section>
     </main>

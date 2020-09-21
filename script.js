@@ -52,7 +52,8 @@ function renderCurrentWeather(cityName, currentDate, currentTemp, currentHumidit
         Humidity = $("<p>").addClass("card-text").text(`Humidity: ${currentHumidity} %`),
         Wind = $("<p>").addClass("card-text").text(`Wind Speed: ${currentWind} MPH`),
         UV = $("<p>").addClass("card-text").html(`UV Index: <button class='btn' id='uv-btn'>${currentUV}</button`);
-    divCard.append(H2, Icon, Temp, Humidity, Wind, UV);
+    H2.append(Icon);
+    divCard.append(H2, Temp, Humidity, Wind, UV);
     $("#current-row").append(divCard);
     checkUVIndex(currentUV);
 }
@@ -133,4 +134,3 @@ $("#search-list").on("click", function (event) {
     event.preventDefault();
     findLatLon(event.target.id);
 })
-

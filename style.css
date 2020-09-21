@@ -1,3 +1,34 @@
-.card {
-    width: 100000000rem;
+/* Styles added ot make site more responsive */
+.card-width {
+    min-width: 11rem;
+    max-width: 12rem;
+}
+
+@media (max-width: 520px){
+    h1 {
+        font-size: 2rem;
+    }
+    h2 {
+        font-size: 1.5rem; 
+    }
+    h3 {
+        font-size: 1.25rem;
+    }
+    h4 {
+        font-size: 1rem;
+    }
+}
+@media (max-width: 410px){
+    h1 {
+        font-size: 1.25rem;
+    }    
+    h2 {
+        font-size: 1.25rem;
+    }
+    h3 {
+        font-size: 1rem;
+    }
+    h4 {
+        font-size: .75rem;
+    }
 }

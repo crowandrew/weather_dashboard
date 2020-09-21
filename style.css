@@ -4,6 +4,10 @@
     max-width: 13rem;
 }
 
+li {
+    cursor: pointer;
+}
+
 @media (max-width: 520px){
     h1 {
         font-size: 2rem;

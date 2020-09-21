@@ -1,20 +1,13 @@
+// Grab data for local storage and render page
 let citySearches = checkCitySearches();
 currentLocation()
 renderSearchedCities()
 
-
 // Converts city name into latitude and longitude and inputs that into currentWeather
 function findLatLon(city) {
-    var query1URL = "http://api.openweathermap.org/data/2.5/weather?q=" + city + "&appid=05b151abf8878f4a65f1f748137f62da";
-    $.ajax({
-        url: query1URL,
-        method: "GET"
-    }).then(function (response) {
-        let lat = response.coord.lat
-        let lon = response.coord.lon
-        let cityName = response.name
-        currentWeather(cityName, lat, lon);
-        addNewSearchedCity(cityName, lat, lon);
+    $.get("http://api.openweathermap.org/data/2.5/weather?q=" + city + "&appid=05b151abf8878f4a65f1f748137f62da", function (response) {
+        currentWeather(response.name,response.coord.lat,response.coord.lon);
+        addNewSearchedCity(response.name,response.coord.lat,response.coord.lon);
         renderSearchedCities();
     });
 }
@@ -54,9 +47,9 @@ function renderFiveDayForecast(response) {
         let dailyTempMin = daily.temp.min.toFixed(0);
         let dailyTempMax = daily.temp.max.toFixed(0);
         let dailyHumidity = daily.humidity;
-        let divCard = $("<div>").addClass("card col-sm ml-3 bg-primary text-light");
+        let divCard = $("<div>").addClass("card col-sm ml-3 bg-primary text-light")
         let divCardBody = $("<div>").addClass("card-body");
-        let dailyH5 = $("<h5>").addClass("card-title").attr("id", "daily-date-" + i).text(dailyDate);
+        let dailyH5 = $("<h5>").addClass("card-title h5").text(dailyDate);
         let dailyImg = $("<img>").attr("src", dailyIconSrc).attr("alt", dailyIconDescription);
         let dailyPTemp = $("<p>").addClass("card-text").text("Temp: " + dailyTempMin + " / " + dailyTempMax + " \u2109");
         let dailyPHumidity = $("</p>").addClass("card-text").text("Humidity: " + dailyHumidity + " %");
@@ -100,21 +93,18 @@ function renderSearchedCities() {
 
 // Grabs latitude and longitude and responds with current weather and 7 day forecast
 function currentWeather(cityName, lat, lon) {
-    var query2URL = "https://api.openweathermap.org/data/2.5/onecall?lat=" + lat + "&lon=" + lon + "&appid=692496d9b9647012326807b41694aa6b&units=imperial";
-    $.ajax({
-        url: query2URL,
-        method: "GET"
-    }).then(function (response) {
-        let currentDate = convertDate(response.current.dt);
-        let currentTemp = response.current.temp;
-        let currentHumidity = response.current.humidity;
-        let currentWind = response.current.wind_speed;
-        let currentUV = response.current.uvi;
-        let currentIcon = response.current.weather[0].icon;
-        let currentIconDescription = response.current.weather[0].description;
-        renderCurrentWeather(cityName, currentDate, currentTemp, currentHumidity, currentWind, currentUV, currentIcon, currentIconDescription)
-        renderFiveDayForecast(response)
-    });
+    $.get("https://api.openweathermap.org/data/2.5/onecall?lat=" + lat + "&lon=" + lon + "&appid=692496d9b9647012326807b41694aa6b&units=imperial", function (response) {
+        let currentDate = convertDate(response.current.dt),
+            currentTemp = response.current.temp,
+            currentHumidity = response.current.humidity,
+            currentWind = response.current.wind_speed,
+            currentUV = response.current.uvi,
+            currentIcon = response.current.weather[0].icon,
+            currentIconDescription = response.current.weather[0].description;
+        renderCurrentWeather(cityName, currentDate, currentTemp, currentHumidity, currentWind, currentUV, currentIcon, currentIconDescription);
+        renderFiveDayForecast(response);
+    })
+
 }
 
 // Highlight UV Index
@@ -131,33 +121,23 @@ function checkUVIndex(currentUV) {
 // Converts Unix TimeStamp to MM/DD/YYYY
 function convertDate(unixTimeStamp) {
     let date = new Date(unixTimeStamp * 1000);
-    let year = date.getFullYear();
-    let month = date.getMonth() + 1;
-    let day = date.getDate();
-    return month + "/" + day + "/" + year
+    return ((date.getMonth() + 1) + "/" + date.getDate() + "/" + date.getFullYear())
 }
 
 // Grabs users IP and gives Latitude and Longitude
 function currentLocation() {
-    $.ajax({
-        url: "http://ip-api.com/json/",
-        method: "GET"
-    }).then(function (response) {
-        currentWeather(response.city, response.lat, response.lon)
-    });
+    $.get("http://ip-api.com/json/", function (response) { currentWeather(response.city, response.lat, response.lon) })
 }
 
 //Event listener for search
 $("#search-form").on("submit", function (event) {
     event.preventDefault();
-    city = $("#search-input").val().trim()
-    findLatLon(city);
+    findLatLon($("#search-input").val().trim());
 });
 
 // Event Listener for Search buttons
 $("#search-list").on("click", function (event) {
     event.preventDefault();
-    city = event.target.id;
-    findLatLon(city);
+    findLatLon(event.target.id);
 })
 

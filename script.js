@@ -10,9 +10,9 @@ function checkCitySearches() {
     return localArr
 }
 
-// Grabs users IP and gives Latitude and Longitude
+// Grabs users IP and gives city
 function currentLocation() {
-    $.get("http://ip-api.com/json/", function (response) { currentWeather(response.city, response.lat, response.lon) });
+    $.get("https://ipapi.co/json/", function (response) { findLatLon(response.city) });
 }
 
 //Render Searched Cities
@@ -67,8 +67,8 @@ function renderFiveDayForecast(response) {
             dailyTempMin = daily.temp.min.toFixed(0),
             dailyTempMax = daily.temp.max.toFixed(0),
             dailyHumidity = daily.humidity,
-            divCard = $("<div>").addClass("card col-sm ml-3 mb-3 bg-primary text-light text-center card-width"),
-            divCardBody = $("<div>").addClass("card-body"),
+            divCard = $("<div>").addClass("card col-sm ml-3 mb-3 bg-primary text-light card-width"),
+            divCardBody = $("<div>").addClass("card-body text-center"),
             dailyH5 = $("<h5>").addClass("card-title h5").text(dailyDate),
             dailyImg = $("<img>").attr("src", `http://openweathermap.org/img/wn/${dailyIcon}@2x.png`).attr("alt", dailyIconDescription),
             dailyPTemp = $("<p>").addClass("card-text").text(`Temp: ${dailyTempMin} / ${dailyTempMax} \u2109`),

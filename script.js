@@ -67,11 +67,11 @@ function renderFiveDayForecast(response) {
             dailyTempMin = daily.temp.min.toFixed(0),
             dailyTempMax = daily.temp.max.toFixed(0),
             dailyHumidity = daily.humidity,
-            divCard = $("<div>").addClass("card col-sm ml-3 bg-primary text-light card-width"),
+            divCard = $("<div>").addClass("card col-sm ml-3 mb-3 bg-primary text-light text-center card-width"),
             divCardBody = $("<div>").addClass("card-body"),
             dailyH5 = $("<h5>").addClass("card-title h5").text(dailyDate),
             dailyImg = $("<img>").attr("src", `http://openweathermap.org/img/wn/${dailyIcon}@2x.png`).attr("alt", dailyIconDescription),
-            dailyPTemp = $("<p>").addClass("card-text").text(`Temp:${dailyTempMin} / ${dailyTempMax} \u2109`),
+            dailyPTemp = $("<p>").addClass("card-text").text(`Temp: ${dailyTempMin} / ${dailyTempMax} \u2109`),
             dailyPHumidity = $("</p>").addClass("card-text").text(`Humidity: ${dailyHumidity} %`);
         divCardBody.append(dailyH5, dailyImg, dailyPTemp, dailyPHumidity);
         divCard.append(divCardBody);
@@ -125,6 +125,7 @@ function convertDate(unixTimeStamp) {
 $("#search-form").on("submit", function (event) {
     event.preventDefault();
     findLatLon($("#search-input").val().trim());
+    $("#search-input").val() = "";
 });
 
 // Event Listener for Search buttons

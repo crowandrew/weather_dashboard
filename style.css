@@ -1,7 +1,7 @@
 /* Styles added ot make site more responsive */
 .card-width {
     min-width: 11rem;
-    max-width: 12rem;
+    max-width: 13rem;
 }
 
 @media (max-width: 520px){

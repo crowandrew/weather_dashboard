@@ -1,6 +1,8 @@
 let citySearches = checkCitySearches();
 currentLocation()
 renderSearchedCities()
+
+
 // Converts city name into latitude and longitude and inputs that into currentWeather
 function findLatLon(city) {
     var query1URL = "http://api.openweathermap.org/data/2.5/weather?q=" + city + "&appid=05b151abf8878f4a65f1f748137f62da";
@@ -29,9 +31,9 @@ function checkCitySearches() {
 }
 
 // Render current weather
-function renderCurrentWeather(cityName,currentDate,currentTemp,currentHumidity,currentWind,currentUV,currentIcon,currentIconDescription){
+function renderCurrentWeather(cityName, currentDate, currentTemp, currentHumidity, currentWind, currentUV, currentIcon, currentIconDescription) {
     let weatherIconSrc = "http://openweathermap.org/img/wn/" + currentIcon + "@2x.png";
-    let weatherIcon = $("<img>").attr("src",weatherIconSrc).attr("alt",currentIconDescription);
+    let weatherIcon = $("<img>").attr("src", weatherIconSrc).attr("alt", currentIconDescription);
     $("#current-city").text(cityName + " (" + currentDate + ")").append(weatherIcon);
     $("#current-temp").text("Temperature: " + currentTemp.toFixed(0) + " \u2109");
     $("#current-humidity").text("Humidity: " + currentHumidity + " %");
@@ -41,10 +43,9 @@ function renderCurrentWeather(cityName,currentDate,currentTemp,currentHumidity,c
 }
 
 // Render 5 Day Forecast
-function renderFiveDayForecast(response){
+function renderFiveDayForecast(response) {
     $("#daily-row").html("")
     for (let i = 1; i < 6; i++) {
-        
         const daily = response.daily[i];
         let dailyDate = convertDate(daily.dt);
         let dailyIcon = daily.weather[0].icon;
@@ -53,13 +54,13 @@ function renderFiveDayForecast(response){
         let dailyTempMin = daily.temp.min.toFixed(0);
         let dailyTempMax = daily.temp.max.toFixed(0);
         let dailyHumidity = daily.humidity;
-        let divCard = $("<div>").addClass("card col ml-3 bg-primary text-light");
+        let divCard = $("<div>").addClass("card col-sm ml-3 bg-primary text-light");
         let divCardBody = $("<div>").addClass("card-body");
-        let dailyH5 = $("<h5>").addClass("card-title").attr("id","daily-date-" + i).text(dailyDate);
-        let dailyImg = $("<img>").attr("src",dailyIconSrc).attr("alt",dailyIconDescription);
+        let dailyH5 = $("<h5>").addClass("card-title").attr("id", "daily-date-" + i).text(dailyDate);
+        let dailyImg = $("<img>").attr("src", dailyIconSrc).attr("alt", dailyIconDescription);
         let dailyPTemp = $("<p>").addClass("card-text").text("Temp: " + dailyTempMin + " / " + dailyTempMax + " \u2109");
         let dailyPHumidity = $("</p>").addClass("card-text").text("Humidity: " + dailyHumidity + " %");
-        divCardBody.append(dailyH5,dailyImg,dailyPTemp,dailyPHumidity);
+        divCardBody.append(dailyH5, dailyImg, dailyPTemp, dailyPHumidity);
         divCard.append(divCardBody);
         $("#daily-row").append(divCard);
     }
@@ -78,7 +79,7 @@ function addNewSearchedCity(cityName, lat, lon) {
     } else if (citySearches.some(function (el) { return el.city === cityName })) {
         return
     }
-    else if (citySearches.length === 9) {
+    else if (citySearches.length === 11) {
         citySearches.pop();
     }
     citySearches.unshift(newCity);
@@ -92,7 +93,7 @@ function renderSearchedCities() {
         return
     }
     citySearches.forEach(citySearch => {
-        let newCityRow = $("<li>").addClass("list-group-item").text(citySearch.city)
+        let newCityRow = $("<li>").addClass("list-group-item").attr("id", citySearch.city).text(citySearch.city)
         $("#search-list").append(newCityRow);
     });
 }
@@ -111,15 +112,14 @@ function currentWeather(cityName, lat, lon) {
         let currentUV = response.current.uvi;
         let currentIcon = response.current.weather[0].icon;
         let currentIconDescription = response.current.weather[0].description;
-        renderCurrentWeather(cityName,currentDate,currentTemp,currentHumidity,currentWind,currentUV,currentIcon,currentIconDescription)
+        renderCurrentWeather(cityName, currentDate, currentTemp, currentHumidity, currentWind, currentUV, currentIcon, currentIconDescription)
         renderFiveDayForecast(response)
-        console.log(response);
     });
 }
 
 // Highlight UV Index
-function checkUVIndex(currentUV){
-    if (currentUV <= 2){
+function checkUVIndex(currentUV) {
+    if (currentUV <= 2) {
         $("#uv-btn").addClass("btn-success")
     } else if (currentUV <= 7) {
         $("#uv-btn").addClass("btn-warning")
@@ -143,14 +143,21 @@ function currentLocation() {
         url: "http://ip-api.com/json/",
         method: "GET"
     }).then(function (response) {
-        currentWeather(response.city,response.lat, response.lon)
+        currentWeather(response.city, response.lat, response.lon)
     });
 }
 
 //Event listener for search
-$("#search-button").on("click", function (event) {
+$("#search-form").on("submit", function (event) {
     event.preventDefault();
     city = $("#search-input").val().trim()
     findLatLon(city);
 });
+
+// Event Listener for Search buttons
+$("#search-list").on("click", function (event) {
+    event.preventDefault();
+    city = event.target.id;
+    findLatLon(city);
+})
 

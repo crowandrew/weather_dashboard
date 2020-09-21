@@ -6,9 +6,7 @@ renderSearchedCities();
 // Check to see if city searches local storage is blank if it is create blank array
 function checkCitySearches() {
     let localArr = JSON.parse(localStorage.getItem("CitySearches"));
-    if (localArr === null) {
-        localArr = [];
-    }
+    if (localArr === null) { localArr = []; }
     return localArr
 }
 

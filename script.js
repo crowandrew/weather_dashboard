@@ -45,7 +45,7 @@ function renderCurrentWeather(cityName, currentDate, currentTemp, currentHumidit
     $("#current-row").html("")
     let divCard = $("<div>").addClass("card-body"),
         H2 = $("<h2>").addClass("card-title").text(`${cityName} (${currentDate})`),
-        Icon = $("<img>").attr("src", `http://openweathermap.org/img/wn/${currentIcon}@2x.png`).attr("alt", currentIconDescription),
+        Icon = $("<img>").attr("src", `https://openweathermap.org/img/wn/${currentIcon}@2x.png`).attr("alt", currentIconDescription),
         Temp = $("<p>").addClass("card-text").text(`Temperature: ${currentTemp.toFixed(0)} \u2109`),
         Humidity = $("<p>").addClass("card-text").text(`Humidity: ${currentHumidity} %`),
         Wind = $("<p>").addClass("card-text").text(`Wind Speed: ${currentWind} MPH`),
@@ -70,7 +70,7 @@ function renderFiveDayForecast(response) {
             divCard = $("<div>").addClass("card col-sm ml-3 mb-3 bg-primary text-light card-width"),
             divCardBody = $("<div>").addClass("card-body text-center"),
             dailyH5 = $("<h5>").addClass("card-title h5").text(dailyDate),
-            dailyImg = $("<img>").attr("src", `http://openweathermap.org/img/wn/${dailyIcon}@2x.png`).attr("alt", dailyIconDescription),
+            dailyImg = $("<img>").attr("src", `https://openweathermap.org/img/wn/${dailyIcon}@2x.png`).attr("alt", dailyIconDescription),
             dailyPTemp = $("<p>").addClass("card-text").text(`Temp: ${dailyTempMin} / ${dailyTempMax} \u2109`),
             dailyPHumidity = $("</p>").addClass("card-text").text(`Humidity: ${dailyHumidity} %`);
         divCardBody.append(dailyH5, dailyImg, dailyPTemp, dailyPHumidity);

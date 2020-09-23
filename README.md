@@ -28,7 +28,7 @@ Link to deployed app: [Weather Dashboard](https://crowandrew.github.io/weather_d
 
 <details>
 <summary>Grab data for local storage and render page</summary>
-<p></p>
+<p>This is setting a variable citySearches and setting it to the function checkCitySearches(). Then it calls two functions currentLocation() and renderSearchedCities() to buidl the page.</p>
 
 ```javascript
 let citySearches = checkCitySearches();
@@ -39,7 +39,7 @@ renderSearchedCities();
 
 <details>
 <summary>Check to see if city searches local storage is blank if it is create blank array</summary>
-<p></p>
+<p>This checks to see if we have data in local storage if not it build a new array then returns either the array in local storage or new array.</p>
 
 ```javascript
 function checkCitySearches() {
@@ -52,7 +52,7 @@ function checkCitySearches() {
 
 <details>
 <summary>Grabs users IP and gives city</summary>
-<p></p>
+<p>This function grabs the city location from the users ip address.</p>
 
 ```javascript
 function currentLocation() {
@@ -63,7 +63,7 @@ function currentLocation() {
 
 <details>
 <summary>Render Searched Cities</summary>
-<p></p>
+<p>This function is building the list of cities that have already been searched.</p>
 
 ```javascript
 function renderSearchedCities() {
@@ -79,19 +79,12 @@ function renderSearchedCities() {
 
 <details>
 <summary>Grabs latitude and longitude and responds with current weather and 7 day forecast</summary>
-<p></p>
+<p>This function takes the city name and latitude and longitude and return an object that contains the current weather an 5 day forecast.</p>
 
 ```javascript
 function currentWeather(cityName, lat, lon) {
     $.get(`https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&appid=692496d9b9647012326807b41694aa6b&units=imperial`, function (response) {
-        let currentDate = convertDate(response.current.dt),
-            currentTemp = response.current.temp,
-            currentHumidity = response.current.humidity,
-            currentWind = response.current.wind_speed,
-            currentUV = response.current.uvi,
-            currentIcon = response.current.weather[0].icon,
-            currentIconDescription = response.current.weather[0].description;
-        renderCurrentWeather(cityName, currentDate, currentTemp, currentHumidity, currentWind, currentUV, currentIcon, currentIconDescription);
+        renderCurrentWeather(cityName,response);
         renderFiveDayForecast(response);
     })
 }
@@ -100,22 +93,23 @@ function currentWeather(cityName, lat, lon) {
 
 <details>
 <summary>Render current weather</summary>
-<p></p>
+<p>This function extracts the current weather data from the response and build the current weather section of the page. It also calls the checkUVIndex function.</p>
 
 ```javascript
-function renderCurrentWeather(cityName, currentDate, currentTemp, currentHumidity, currentWind, currentUV, currentIcon, currentIconDescription) {
+function renderCurrentWeather(cityName, response) {
     $("#current-row").html("")
-    let divCard = $("<div>").addClass("card-body"),
-        H2 = $("<h2>").addClass("card-title").text(`${cityName} (${currentDate})`),
-        Icon = $("<img>").attr("src", `https://openweathermap.org/img/wn/${currentIcon}@2x.png`).attr("alt", currentIconDescription),
-        Temp = $("<p>").addClass("card-text").text(`Temperature: ${currentTemp.toFixed(0)} \u2109`),
-        Humidity = $("<p>").addClass("card-text").text(`Humidity: ${currentHumidity} %`),
-        Wind = $("<p>").addClass("card-text").text(`Wind Speed: ${currentWind} MPH`),
-        UV = $("<p>").addClass("card-text").html(`UV Index: <button class='btn' id='uv-btn'>${currentUV}</button`);
+    let currentDay = response.current,
+        divCard = $("<div>").addClass("card-body"),
+        H2 = $("<h2>").addClass("card-title").text(`${cityName} (${convertDate(currentDay.dt)})`),
+        Icon = $("<img>").attr("src", `https://openweathermap.org/img/wn/${currentDay.weather[0].icon}@2x.png`).attr("alt", currentDay.weather[0].description),
+        Temp = $("<p>").addClass("card-text").text(`Temperature: ${currentDay.temp.toFixed(0)} \u2109`),
+        Humidity = $("<p>").addClass("card-text").text(`Humidity: ${currentDay.humidity} %`),
+        Wind = $("<p>").addClass("card-text").text(`Wind Speed: ${currentDay.wind_speed} MPH`),
+        UV = $("<p>").addClass("card-text").html(`UV Index: <button class='btn' id='uv-btn'>${currentDay.uvi}</button`);
     H2.append(Icon);
     divCard.append(H2, Temp, Humidity, Wind, UV);
     $("#current-row").append(divCard);
-    checkUVIndex(currentUV);
+    checkUVIndex(currentDay.uvi);
 }
 ```
 </details>
@@ -123,25 +117,19 @@ function renderCurrentWeather(cityName, currentDate, currentTemp, currentHumidit
 
 <details>
 <summary>Render 5 Day Forecast</summary>
-<p></p>
+<p>This function extracts the daily weather data from the response and build the daily weather section of the page using a for loop.</p>
 
 ```javascript
 function renderFiveDayForecast(response) {
     $("#daily-row").html("")
     for (let i = 1; i < 6; i++) {
         const daily = response.daily[i];
-        let dailyDate = convertDate(daily.dt),
-            dailyIcon = daily.weather[0].icon,
-            dailyIconDescription = daily.weather[0].description,
-            dailyTempMin = daily.temp.min.toFixed(0),
-            dailyTempMax = daily.temp.max.toFixed(0),
-            dailyHumidity = daily.humidity,
-            divCard = $("<div>").addClass("card col-sm ml-3 mb-3 bg-primary text-light card-width"),
+        let divCard = $("<div>").addClass("card col-sm ml-3 mb-3 bg-primary text-light card-width"),
             divCardBody = $("<div>").addClass("card-body text-center"),
-            dailyH5 = $("<h5>").addClass("card-title h5").text(dailyDate),
-            dailyImg = $("<img>").attr("src", `https://openweathermap.org/img/wn/${dailyIcon}@2x.png`).attr("alt", dailyIconDescription),
-            dailyPTemp = $("<p>").addClass("card-text").text(`Temp: ${dailyTempMin} / ${dailyTempMax} \u2109`),
-            dailyPHumidity = $("</p>").addClass("card-text").text(`Humidity: ${dailyHumidity} %`);
+            dailyH5 = $("<h5>").addClass("card-title h5").text(convertDate(daily.dt)),
+            dailyImg = $("<img>").attr("src", `https://openweathermap.org/img/wn/${daily.weather[0].icon}@2x.png`).attr("alt", daily.weather[0].description),
+            dailyPTemp = $("<p>").addClass("card-text").text(`Temp: ${daily.temp.min.toFixed(0)} / ${daily.temp.max.toFixed(0)} \u2109`),
+            dailyPHumidity = $("</p>").addClass("card-text").text(`Humidity: ${daily.humidity} %`);
         divCardBody.append(dailyH5, dailyImg, dailyPTemp, dailyPHumidity);
         divCard.append(divCardBody);
         $("#daily-row").append(divCard);
@@ -152,7 +140,7 @@ function renderFiveDayForecast(response) {
 
 <details>
 <summary>Highlight UV Index</summary>
-<p></p>
+<p>This function checks the current UV index and changes the background based on level of danger.</p>
 
 ```javascript
 function checkUVIndex(currentUV) {
@@ -169,7 +157,7 @@ function checkUVIndex(currentUV) {
 
 <details>
 <summary>Converts city name into latitude and longitude and inputs that into currentWeather</summary>
-<p></p>
+<p>This function converts the city name into a latitude and longitude to be used by the current weather function.</p>
 
 ```javascript
 function findLatLon(city) {
@@ -184,7 +172,7 @@ function findLatLon(city) {
 
 <details>
 <summary>Add City to citySearches Array</summary>
-<p></p>
+<p>This function adds new cities to the searched cities arrays and stores it in local storage. It limits the array size to 11 and will not allow duplicates.</p>
 
 ```javascript
 function addNewSearchedCity(cityName, lat, lon) {
@@ -206,7 +194,7 @@ function addNewSearchedCity(cityName, lat, lon) {
 
 <details>
 <summary>Converts Unix TimeStamp to MM/DD/YYYY</summary>
-<p></p>
+<p>This function converts unix time stamps to MM/DD/YYY</p>
 
 ```javascript
 function convertDate(unixTimeStamp) {
@@ -218,7 +206,7 @@ function convertDate(unixTimeStamp) {
 
 <details>
 <summary>Event listener for search</summary>
-<p></p>
+<p>This is the event listener on the search field.</p>
 
 ```javascript
 $("#search-form").on("submit", function (event) {
@@ -231,7 +219,7 @@ $("#search-form").on("submit", function (event) {
 
 <details>
 <summary>Event Listener for Search buttons</summary>
-<p></p>
+<p>This is the event listener for the searched cities buttons.</p>
 
 ```javascript
 $("#search-list").on("click", function (event) {
